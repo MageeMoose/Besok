@@ -1,7 +1,6 @@
 package com.example.mig_besok.data
 
-import androidx.room.Dao
-import androidx.room.Query
+import androidx.room.*
 import com.example.mig_besok.model.Visitor
 import kotlinx.coroutines.flow.Flow
 
@@ -13,6 +12,19 @@ interface VisitorDatabaseDao {
 
     @Query("SELECT * from visitor_tbl where id = :id")
     suspend fun getVisitorById(id: String): Visitor
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insert(visitor: Visitor)
+
+    @Update(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun update (visitor: Visitor)
+
+    @Query("DELETE from visitor_tbl")
+    suspend fun deleteAll()
+
+    @Delete
+    suspend fun deleteVisitor(visitor: Visitor)
+
 
 
 }
